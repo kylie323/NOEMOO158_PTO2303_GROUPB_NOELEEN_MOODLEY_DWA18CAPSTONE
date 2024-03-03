@@ -1,0 +1,202 @@
+body {
+    color: #fff;
+    margin: 0; /* Remove default margin */
+}
+
+.grid {
+    display: flex;
+    justify-content: center;
+    font-size: small;
+    padding: 10px;
+}
+.preview-image {
+  height: auto;
+  border-radius: 10px;
+  max-width: 100%;
+  cursor: pointer;
+}
+
+.podcast-details-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 999; /* Ensure it appears above other content */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto; /* Allow scrolling within the container */
+}
+
+.podcast-details {
+    background-color: #8CA6DB;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 90%;
+    max-height: 90%;
+    text-align: left;
+    position: relative;
+    overflow: auto; /* Allow scrolling within the container */
+}
+
+.podcast-details img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+    max-height: 50vh; /* Limit the maximum height of the image */
+}
+
+.podcast-details button {
+   
+  border: 2px solid white; 
+  border-radius: 8px;
+  padding: 8px 8px; 
+  color: #8CA6DB; 
+  font-weight: bold; 
+  background-color: white;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 999;
+}
+
+.season-dropdown {
+  padding-bottom: 30px;
+ 
+}
+
+.season-dropdown-select {
+    border: 2px solid white; 
+    border-radius: 8px;
+    padding: 8px 8px; 
+    color: #8CA6DB; 
+    font-weight: bold; 
+    background-color: white; 
+}
+
+.season-episode-item {
+  border-top: 2px solid white; 
+  padding-top: 15px;
+  padding-bottom: 30px; 
+}
+
+.podcast-carousel {
+    position: relative; /* Add position relative to enable absolute positioning of arrows */
+    max-width: 90%; /* Adjust the width as needed */
+    margin: 30px auto; 
+    padding: 20px;
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Evenly space out the images */
+    flex-wrap: wrap;
+    padding-left: 60px;
+}
+
+
+.podcast-carousel img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10 auto; /* Center the images horizontally */
+    border-radius: 10px;
+    max-height: 50vh;
+    
+}
+
+
+.search-filter,
+.genre-filter {
+  max-width: 250px;
+  width: 100%;
+  margin-left: 30px;
+  margin-top: 20px;
+  border-radius: 10px;
+  border: 1px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  padding: 8px;
+}
+
+ .sort-filter {
+        max-width: 250px;
+        margin-left: 30px;
+        width: 100%;
+        margin-top: 20px;
+        border-radius: 10px;
+        border: 1px solid #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+        padding: 8px;
+        background-color: white;
+        
+    }
+
+    .favorite-filter {
+      max-width: 250px;
+        margin-left: 30px;
+        width: 100%;
+        margin-top: 20px;
+        border-radius: 10px;
+        border: 1px solid #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+        padding: 8px;
+        background-color: white;
+        color: black;
+        font-size: small;
+
+    }
+  
+    .favorite-button {
+      border-radius: 10px;
+        border: 1px solid #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+        padding: 8px;
+        background-color: white;
+        color: black;
+        font-size: x-small;
+    }
+
+
+.search-filter input,
+.genre-filter input, .sort-filter {
+  
+  padding: 10px;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  background-color: #fff;
+}
+
+.search-filter input::placeholder,
+.genre-filter input::placeholder,
+.sort-filter input::placeholder {
+  color: #fff;
+}
+
+.search-filter input:hover,
+.genre-filter input:hover,
+.sort-filter input:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.search-filter input:focus,
+.genre-filter input:focus,
+.sort-filter input:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.search-filter input,
+.genre-filter input,
+.search-filter select,
+.genre-filter select {
+  transition: background-color 0.3s ease;
+}
+
