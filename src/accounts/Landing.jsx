@@ -15,6 +15,7 @@ function Landing({ token }) {
   return (
     <div>
       <Header token={token} handleLogout={handleLogout} />
+      <img className='hero-image' src='/Hero.png' alt='Hero' />
       <PodcastData />
     </div>
   );

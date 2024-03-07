@@ -71,3 +71,10 @@ button[type="submit"] {
     padding-left: 25px;
   }
   
+  .hero-image{
+border-radius: 20px;
+max-width: 96%;
+display: block;
+margin: auto;
+margin-top: 20px;
+  }

@@ -14,6 +14,13 @@ const StyledGridItem = styled(Grid)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
 function PodcastData() {
   const [podcasts, setPodcasts] = useState([]);
@@ -74,6 +81,8 @@ function PodcastData() {
     slidesToScroll: 2,
   };
 
+  const shuffledPodcasts = shuffleArray(podcasts.slice(0, 8));
+
   return (
     <div className="podcast-container">
       <input
@@ -108,7 +117,7 @@ function PodcastData() {
 
       {!filterTitle && !filterGenre && !showFavoritesOnly && (
         <Slider className="podcast-carousel" {...settings}>
-          {podcasts.slice(0, 8).map((podcast, index) => (
+          {shuffledPodcasts.map((podcast, index) => (
             <div key={index}>
               <img
                 src={podcast.image}

@@ -1,16 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
+import { LinearProgress } from "@mui/material";
+
 
 function Audio({ audioUrl }) {
     const audioRef = useRef();
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
+    const [progress, setProgress] = useState(0);
 
     useEffect(() => {
         const audio = audioRef.current;
 
         const handleTimeUpdate = () => {
             setCurrentTime(audio.currentTime);
+            setProgress((audio.currentTime / audio.duration) * 100);
         };
 
         const handleLoadedMetadata = () => {
@@ -47,6 +51,7 @@ function Audio({ audioUrl }) {
             <div className="audio-control">
                 <button onClick={togglePlay} className="play-audio-button">{isPlaying ? "Stop" : "Play"}</button>
             </div>
+            <LinearProgress variant="determinate" value={progress} />
             <div className="audio-timestamps">
                 <span>{formatTime(currentTime)}</span> / <span>{formatTime(duration)}</span>
             </div>
