@@ -1,6 +1,6 @@
 body {
     color: #fff;
-    margin: 0; /* Remove default margin */
+    margin: 0; 
 }
 
 .grid {
@@ -22,12 +22,12 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    z-index: 999; /* Ensure it appears above other content */
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 999; 
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow-y: auto; /* Allow scrolling within the container */
+    overflow-y: auto; 
 }
 
 .podcast-details {
@@ -38,7 +38,7 @@ body {
     max-height: 90%;
     text-align: left;
     position: relative;
-    overflow: auto; /* Allow scrolling within the container */
+    overflow: auto; 
 }
 
 .podcast-details img {
@@ -47,7 +47,7 @@ body {
     display: block;
     margin: 0 auto;
     border-radius: 10px;
-    max-height: 50vh; /* Limit the maximum height of the image */
+    max-height: 50vh; 
 }
 
 .podcast-details button {
@@ -88,12 +88,12 @@ body {
 }
 
 .podcast-carousel {
-    position: relative; /* Add position relative to enable absolute positioning of arrows */
-    max-width: 90%; /* Adjust the width as needed */
-    margin: 30px auto; 
+    position: relative;
+    max-width: 90%; 
+    margin: 150px auto; 
     padding: 20px;
-    display: flex; /* Use flexbox */
-    justify-content: center; /* Evenly space out the images */
+    display: flex; 
+    justify-content: center; 
     flex-wrap: wrap;
     padding-left: 60px;
 }
@@ -103,7 +103,7 @@ body {
     max-width: 100%;
     height: auto;
     display: block;
-    margin: 10 auto; /* Center the images horizontally */
+    margin: 10 auto; 
     border-radius: 10px;
     max-height: 50vh;
     
@@ -114,13 +114,17 @@ body {
 .genre-filter {
   max-width: 250px;
   width: 100%;
-  margin-left: 30px;
-  margin-top: 20px;
+  margin-left: 20px;
+  margin-bottom: 40px;
   border-radius: 10px;
   border: 1px solid #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
   padding: 8px;
+}
+
+.search-filter::-webkit-input-placeholder{
+  color: black;
 }
 
  .sort-filter {
@@ -202,4 +206,36 @@ body {
 
 .audio-control {
   margin-bottom: 10px;
+}
+
+.modal-content {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  background-color: #B2C3DD;
+}
+
+.audio-player {
+  width: 80%; 
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.close-modal:hover {
+  color: #8CA6DB; 
 }

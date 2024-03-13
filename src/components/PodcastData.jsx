@@ -3,12 +3,13 @@ import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import './style.css';
 import { genreMap, formatDate } from './PodcastAssets';
-import PodcastDetails from './PodcastDetails';
 import Slider from 'react-slick';
 import Favorites from './Favorites'; 
 import { applyFilters } from './Filter'; 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import ReactAudioPlayer from 'react-audio-player';
+import CloseIcon from '@mui/icons-material/Close';
 
 const StyledGridItem = styled(Grid)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -30,6 +31,10 @@ function PodcastData() {
   const [sortOption, setSortOption] = useState('');
   const [favorites, setFavorites] = useState([]);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const [selectedSeason, setSelectedSeason] = useState(null);
+  const [seasonEpisodes, setSeasonEpisodes] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentEpisode, setCurrentEpisode] = useState(null);
 
   useEffect(() => {
     const fetchPodcasts = async () => {
@@ -48,30 +53,54 @@ function PodcastData() {
     fetchPodcasts();
   }, []);
 
-  const openPodcastDetails = (podcast) => {
-    setSelectedPodcast(podcast);
+  
+   useEffect(() => {
+    const fetchShowDetails = async (showId) => {
+      try {
+        const response = await fetch(`https://podcast-api.netlify.app/id/${showId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch show details');
+        }
+        const showData = await response.json();
+    
+        const episodeDescription = showData.seasons.map(season => season.episodes.map(episode => ({
+          ...episode,
+          description: episode.description 
+        })));
+        setSeasonEpisodes(episodeDescription);
+      } catch (error) {
+        console.error('Error fetching show details:', error);
+      }
+    };
+
+    if (selectedPodcast) {
+      fetchShowDetails(selectedPodcast.id);
+    }
+  }, [selectedPodcast]);
+   
+
+  const handleSeasonChange = (event) => {
+    setSelectedSeason(event.target.value);
   };
 
-  const closePodcastDetails = () => {
-    setSelectedPodcast(null);
+  const seasonsArray = Array.from({ length: selectedPodcast?.seasons || 0 }, (_, index) => index + 1);
+
+  const openModal = (episode) => {
+    setCurrentEpisode(episode);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
   };
 
   const toggleFavorite = (podcast) => {
-    if (favorites.includes(podcast)) {
-      setFavorites(favorites.filter((fav) => fav !== podcast));
-    } else {
-      setFavorites([...favorites, podcast]);
-    }
+    favorites.includes(podcast) 
+      ? setFavorites(favorites.filter((fav) => fav !== podcast)) 
+      : setFavorites([...favorites, podcast]);
   };
 
-  const filteredPodcasts = applyFilters(
-    podcasts,
-    filterTitle,
-    filterGenre,
-    sortOption,
-    showFavoritesOnly,
-    favorites
-  );
+  const filteredPodcasts = applyFilters(podcasts, filterTitle, filterGenre, sortOption, showFavoritesOnly, favorites);
 
   const settings = {
     dots: true,
@@ -83,8 +112,27 @@ function PodcastData() {
 
   const shuffledPodcasts = shuffleArray(podcasts.slice(0, 8));
 
+
   return (
     <div className="podcast-container">
+      {!filterTitle && !filterGenre && !showFavoritesOnly && (
+        <Slider className="podcast-carousel" {...settings}>
+          {shuffledPodcasts.map((podcast, index) => (
+            <div key={index}>
+              <img
+                src={podcast.image}
+                alt={podcast.title}
+                onClick={() => setSelectedPodcast(podcast)}
+              />
+              <p>{podcast.title}</p>
+              <button className='favorite-button' onClick={() => toggleFavorite(podcast)}>
+                {favorites.includes(podcast) ? 'Remove from Favorites' : 'Add to Favorites'}
+              </button>
+            </div>
+          ))}
+        </Slider>
+      )}
+
       <input
         className="search-filter"
         type="text"
@@ -105,8 +153,7 @@ function PodcastData() {
         ))}
       </select>
 
-
-      <label  className='favorite-filter'>
+      <label className='favorite-filter'>
         <input
           type="checkbox"
           checked={showFavoritesOnly}
@@ -114,24 +161,6 @@ function PodcastData() {
         />
         Show Favorites Only
       </label>
-
-      {!filterTitle && !filterGenre && !showFavoritesOnly && (
-        <Slider className="podcast-carousel" {...settings}>
-          {shuffledPodcasts.map((podcast, index) => (
-            <div key={index}>
-              <img
-                src={podcast.image}
-                alt={podcast.title}
-                onClick={() => openPodcastDetails(podcast)}
-              />
-              <p>{podcast.title}</p>
-              <button className='favorite-button' onClick={() => toggleFavorite(podcast)}>
-                {favorites.includes(podcast) ? 'Remove from Favorites' : 'Add to Favorites'}
-              </button>
-            </div>
-          ))}
-        </Slider>
-      )}
 
       <select
         className="sort-filter"
@@ -153,7 +182,7 @@ function PodcastData() {
                 className="preview-image"
                 src={podcast.image}
                 alt={podcast.title}
-                onClick={() => openPodcastDetails(podcast)}
+                onClick={() => setSelectedPodcast(podcast)}
               />
               <h3>{podcast.title}</h3>
               <p>Last Updated: {formatDate(podcast.updated)}</p>
@@ -168,18 +197,53 @@ function PodcastData() {
       </Grid>
 
       {selectedPodcast && (
-        <PodcastDetails
-          selectedPodcast={selectedPodcast}
-          closePodcastDetails={closePodcastDetails}
-        />
-      )}
+        <div className="podcast-details-container">
+          <div className="podcast-details">
+            <h2>{selectedPodcast.title}</h2>
+            <img src={selectedPodcast.image} alt={selectedPodcast.title} />
+            <p>Last Updated: {formatDate(selectedPodcast.updated)}</p>
+            <p>Genres: {selectedPodcast.genres.map(genreId => genreMap[genreId]).join(', ')}</p>
+            <p>{selectedPodcast.description}</p>
+            <button className='close-button' onClick={() => setSelectedPodcast(null)}>Back</button>
 
-      {showFavoritesOnly && (
-        <Favorites favorites={favorites} />
-      )}
+            <div className="season-dropdown">
+              <select className="season-dropdown-select" onChange={handleSeasonChange}>
+                <option value="">Select a Season</option>
+                {seasonsArray.map((season, index) => (
+                  <option key={index} value={season}>
+                    Season {season} ({seasonEpisodes[season - 1]?.length || 0} episodes)
+                  </option>
+                ))}
+              </select>
+            </div>
 
+            {selectedSeason && seasonEpisodes[selectedSeason - 1]?.length > 0 && (
+              <div className="season-episodes">
+                {seasonEpisodes[selectedSeason - 1].map((episode, index) => (
+                  <div key={index} className="season-episode-item">
+                    {`${index + 1}. ${episode.title}`}
+                    <p>{episode.description}</p>
+                    <button onClick={() => openModal(episode)}>Play Episode</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+        </div>
+      )}
+{modalOpen && (
+              <div className="modal-content">
+                <ReactAudioPlayer className="audio-player" src={currentEpisode.file} controls={true} />
+                <CloseIcon className="close-modal" onClick={closeModal} />
+              </div>
+          )}
+      {showFavoritesOnly && <Favorites favorites={favorites} />}
     </div>
   );
 }
 
 export default PodcastData;
+
+
+

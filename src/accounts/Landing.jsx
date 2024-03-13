@@ -1,6 +1,5 @@
 import React from 'react';
 import Header from '../structure/Header';
-import Home from './Home'; 
 import { useNavigate } from 'react-router-dom';
 import PodcastData from '../components/PodcastData';
 

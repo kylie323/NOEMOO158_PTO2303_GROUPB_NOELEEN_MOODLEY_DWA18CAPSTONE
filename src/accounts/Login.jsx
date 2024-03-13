@@ -3,74 +3,55 @@ import { supabase } from '../client';
 import { Link, useNavigate } from 'react-router-dom';
 import './accounts.css';
 
+const Login = ({ setToken }) => {
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({ email: '', password: '' });
 
-const Login = ({setToken}) => {
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    };
 
-    let navigate = useNavigate();
-
-    const [formData, setFormData] = useState({
-        email:'',
-        password:'',
-    })
- 
-console.log(formData)
-
-    function handleChange(event) {
-    setFormData((prevFormData)=>{
-     return{
-        ...prevFormData,
-        [event.target.name]: event.target.value
-     }
-    })
-    }
-
-    async function handleSubmit(event){
-        event.preventDefault()
-
-        try{
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
             const { data, error } = await supabase.auth.signInWithPassword({
                 email: formData.email,
                 password: formData.password,
-              })
-            if (error) throw error
-            console.log(data)
-            setToken(data)
-            navigate('/landing')
-
-
-        }catch(error){
-            alert(error)
+            });
+            if (error) throw error;
+            setToken(data);
+            navigate('/landing');
+        } catch (error) {
+            alert(error.message);
         }
-    }
-
-   
+    };
 
     return (
         <div className='acc-form'>
             <form onSubmit={handleSubmit}>
-
-                <input className='form-group'
-                placeholder='Email'
-                name='email'
-                onChange={handleChange}
+                <input
+                    className='form-group'
+                    placeholder='Email'
+                    name='email'
+                    value={formData.email}
+                    onChange={handleChange}
                 />
-                
-                <input className='form-group'
-                placeholder='Password'
-                name='password'
-                type='password'
-                onChange={handleChange}
+                <input
+                    className='form-group'
+                    placeholder='Password'
+                    name='password'
+                    type='password'
+                    value={formData.password}
+                    onChange={handleChange}
                 />
-
-                <button type='submit'>
-                    Submit
-                </button>
+                <button type='submit'>Submit</button>
             </form>
             <div className='alternative-acc'>
-            Dont have an account? <Link to='/register'>Register</Link>  
+                Don't have an account? <Link to='/register'>Register</Link>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;
