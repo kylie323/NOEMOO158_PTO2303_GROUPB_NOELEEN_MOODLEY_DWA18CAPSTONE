@@ -10,6 +10,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import ReactAudioPlayer from 'react-audio-player';
 import CloseIcon from '@mui/icons-material/Close';
+import CircularProgress from '@mui/material/CircularProgress'
 
 const StyledGridItem = styled(Grid)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -35,6 +36,7 @@ function PodcastData() {
   const [seasonEpisodes, setSeasonEpisodes] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentEpisode, setCurrentEpisode] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPodcasts = async () => {
@@ -45,6 +47,7 @@ function PodcastData() {
         }
         const data = await response.json();
         setPodcasts(data);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching podcasts:', error);
       }
@@ -57,6 +60,7 @@ function PodcastData() {
    useEffect(() => {
     const fetchShowDetails = async (showId) => {
       try {
+        setLoading(true);
         const response = await fetch(`https://podcast-api.netlify.app/id/${showId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch show details');
@@ -68,8 +72,10 @@ function PodcastData() {
           description: episode.description 
         })));
         setSeasonEpisodes(episodeDescription);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching show details:', error);
+        setLoading(false);
       }
     };
 
@@ -91,7 +97,10 @@ function PodcastData() {
   };
 
   const closeModal = () => {
-    setModalOpen(false);
+    const confirmClose = window.confirm('Are you sure you want to close the audio?');
+    if (confirmClose) {
+      setModalOpen(false);
+    }
   };
 
   const toggleFavorite = (podcast) => {
@@ -115,6 +124,7 @@ function PodcastData() {
 
   return (
     <div className="podcast-container">
+      {loading && <CircularProgress />}
       {!filterTitle && !filterGenre && !showFavoritesOnly && (
         <Slider className="podcast-carousel" {...settings}>
           {shuffledPodcasts.map((podcast, index) => (

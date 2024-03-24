@@ -5,10 +5,12 @@ body {
 
 .grid {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     font-size: small;
     padding: 10px;
 }
+
 .preview-image {
   height: auto;
   border-radius: 10px;
@@ -58,6 +60,7 @@ body {
   color: #8CA6DB; 
   font-weight: bold; 
   background-color: white;
+  font-size: small;
 }
 
 .close-button {
@@ -153,7 +156,6 @@ body {
         padding: 8px;
         background-color: white;
         color: black;
-        font-size: small;
 
     }
   
@@ -191,18 +193,6 @@ body {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.search-filter input:focus,
-.genre-filter input:focus,
-.sort-filter input:focus {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.search-filter input,
-.genre-filter input,
-.search-filter select,
-.genre-filter select {
-  transition: background-color 0.3s ease;
-}
 
 .audio-control {
   margin-bottom: 10px;
@@ -238,4 +228,41 @@ body {
 
 .close-modal:hover {
   color: #8CA6DB; 
+}
+
+@media (max-width: 768px) {
+  .podcast-carousel {
+      margin-top: 30px;
+      margin-bottom: 50px;
+      max-width: 80%;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding-left: 20px;
+      font-size: xx-small;
+  }
+
+  .podcast-carousel img {
+      margin: 10px;
+      max-width: 85%;
+      height: auto;
+      display: block;
+  }
+
+  .favorite-button {
+    font-size: x-small;
+    max-width: 80%;
+  }
+  
+  .season-dropdown,
+  .search-filter,
+  .genre-filter,
+  .favorite-filter,
+  .sort-filter {
+    max-width: 200px;
+    display: block;
+    margin-left: 30px;
+}
+
+
+
 }
