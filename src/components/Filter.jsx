@@ -1,3 +1,4 @@
+import Fuse from 'fuse.js';
 
 export function applyFilters(podcasts, filterTitle, filterGenre, sortOption, showFavoritesOnly, favorites) {
     let filteredPodcasts = podcasts.filter(
