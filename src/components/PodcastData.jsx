@@ -13,6 +13,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import CircularProgress from '@mui/material/CircularProgress'
 
 
+
 const StyledGridItem = styled(Grid)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
@@ -25,7 +26,7 @@ function shuffleArray(array) {
   return array;
 }
 
-function PodcastData() {
+function PodcastData({token}) {
   const [podcasts, setPodcasts] = useState([]);
   const [selectedPodcast, setSelectedPodcast] = useState(null);
   const [filterTitle, setFilterTitle] = useState('');
@@ -136,9 +137,6 @@ function PodcastData() {
                 onClick={() => setSelectedPodcast(podcast)}
               />
               <p>{podcast.title}</p>
-              <button className='favorite-button' onClick={() => toggleFavorite(podcast)}>
-                {favorites.includes(podcast) ? 'Remove from Favorites' : 'Add to Favorites'}
-              </button>
             </div>
           ))}
         </Slider>
@@ -169,6 +167,7 @@ function PodcastData() {
           type="checkbox"
           checked={showFavoritesOnly}
           onChange={() => setShowFavoritesOnly(!showFavoritesOnly)}
+          disabled={!token}
         />
         Show Favorites Only
       </label>
@@ -199,7 +198,7 @@ function PodcastData() {
               <p>Last Updated: {formatDate(podcast.updated)}</p>
               <p>Seasons: {podcast.seasons}</p>
               <p>Genres: {podcast.genres.map((genreId) => genreMap[genreId]).join(', ')}</p>
-              <button className='favorite-button' onClick={() => toggleFavorite(podcast)}>
+              <button disabled={!token} className='favorite-button' onClick={() => toggleFavorite(podcast)}>
                 {favorites.includes(podcast) ? 'Remove from Favorites' : 'Add to Favorites'}
               </button>
             </StyledGridItem>
@@ -207,7 +206,7 @@ function PodcastData() {
         ))}
       </Grid>
 
-      {selectedPodcast && (
+      {token && selectedPodcast && (
         <div className="podcast-details-container">
           <div className="podcast-details">
             <h2>{selectedPodcast.title}</h2>
@@ -251,6 +250,7 @@ function PodcastData() {
           )}
       {showFavoritesOnly && <Favorites favorites={favorites} />}
     </div>
+    
   );
 }
 

@@ -32,8 +32,7 @@ function App() {
         <Route path='/' element={<Landing />} />  
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login setToken={setToken} />} />
-          {token?<Route path='/landing' element={<Landing token={token} />} />: ""  }  
-          <Route path='/landing' element={<Landing />} />
+          <Route path='/landing' element={<Landing token={token} />} />
          </Routes>
         <Footer />
       </div>

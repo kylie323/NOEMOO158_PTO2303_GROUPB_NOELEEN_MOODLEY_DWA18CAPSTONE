@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../structure/Header';
 import { useNavigate } from 'react-router-dom';
 import PodcastData from '../components/PodcastData';
@@ -15,7 +15,8 @@ function Landing({ token }) {
     <div>
       <Header token={token} handleLogout={handleLogout} />
       <img className='hero-image' src='/Hero.png' alt='Hero' />
-      <PodcastData />
+      <PodcastData  token={token}/> 
+      
     </div>
   );
 }
