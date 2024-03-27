@@ -1,11 +1,6 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
+ListenUp is a podcast application built using React and Vite. It provides users with a seamless listening experience, allowing them to discover, subscribe to, and enjoy their favorite podcasts effortlessly.
 
   
+https://6601940acde6ed0317b57cfe--vocal-clafoutis-199625.netlify.app/
