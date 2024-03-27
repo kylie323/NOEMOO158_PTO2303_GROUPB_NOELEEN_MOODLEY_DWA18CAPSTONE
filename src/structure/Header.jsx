@@ -11,7 +11,6 @@ function Header({ token, handleLogout }) {
       </div>
       {token ? (
         <div className="user-info">
-          <h3 className="welcome-back">Welcome back, {token.user.user_metadata.full_name}</h3>
           <button onClick={handleLogout} className='logout-button'>Logout</button>
         </div>
       ) : (
