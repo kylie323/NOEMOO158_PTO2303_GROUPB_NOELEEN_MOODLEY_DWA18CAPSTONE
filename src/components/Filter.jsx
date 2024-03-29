@@ -1,5 +1,6 @@
 import Fuse from 'fuse.js';
 
+
 export function applyFilters(podcasts, filterTitle, filterGenre, sortOption, showFavoritesOnly, favorites) {
     let filteredPodcasts = podcasts.filter(
       (podcast) =>
@@ -10,6 +11,15 @@ export function applyFilters(podcasts, filterTitle, filterGenre, sortOption, sho
     if (showFavoritesOnly) {
       filteredPodcasts = filteredPodcasts.filter((podcast) => favorites.includes(podcast));
     }
+
+    if (filterTitle) {
+      const fuse = new Fuse(filteredPodcasts, {
+        keys: ['title'],
+      });
+      const fuseResults = fuse.search(filterTitle);
+      filteredPodcasts = fuseResults.map(result => result.item);
+    }
+    
   
     if (sortOption === 'titleAZ') {
       filteredPodcasts = filteredPodcasts.sort((a, b) => a.title.localeCompare(b.title));

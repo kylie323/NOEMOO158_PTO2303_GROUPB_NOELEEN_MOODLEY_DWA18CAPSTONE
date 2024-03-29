@@ -16,6 +16,7 @@ function Header({ token, handleLogout }) {
       ) : (
         <div className="login-info">
           <Link to="/login" className="login-link">Login</Link>
+          <div className="login-message">Please login to view podcast seasons, listen to episodes and add to favourites</div>
         </div>
       )}
     </header>

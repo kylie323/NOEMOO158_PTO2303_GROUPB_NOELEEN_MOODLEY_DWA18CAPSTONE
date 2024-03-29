@@ -11,8 +11,21 @@ import 'slick-carousel/slick/slick-theme.css';
 import ReactAudioPlayer from 'react-audio-player';
 import CloseIcon from '@mui/icons-material/Close';
 import CircularProgress from '@mui/material/CircularProgress'
+import IconButton from '@mui/material/IconButton';
+import ShareIcon from '@mui/icons-material/Share';
 
-
+const sharePodcast = () => {
+  if (navigator.share) {
+    navigator.share({
+      title: 'Check out this podcast!',
+      url: window.location.href
+    })
+    .then(() => console.log('Successful share'))
+    .catch((error) => console.log('Error sharing:', error));
+  } else {
+    console.log('Web Share API not supported');
+  }
+};
 
 const StyledGridItem = styled(Grid)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -104,6 +117,7 @@ function PodcastData({token}) {
       setModalOpen(false);
     }
   };
+  
 
   const toggleFavorite = (podcast) => {
     favorites.includes(podcast) 
@@ -141,7 +155,7 @@ function PodcastData({token}) {
           ))}
         </Slider>
       )}
-
+      
       <input
         className="search-filter"
         type="text"
@@ -201,6 +215,9 @@ function PodcastData({token}) {
               <button disabled={!token} className='favorite-button' onClick={() => toggleFavorite(podcast)}>
                 {favorites.includes(podcast) ? 'Remove from Favorites' : 'Add to Favorites'}
               </button>
+              <IconButton onClick={sharePodcast} aria-label="Share podcast">
+                <ShareIcon />
+              </IconButton>
             </StyledGridItem>
           </Grid>
         ))}
